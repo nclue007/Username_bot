@@ -31,7 +31,8 @@ async def generate(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("يرجى تحديد النمط بعد الأمر.")
 
 def main():
-    app = Application.builder().token(TOKEN).build()
+    app = Application.builder().token(TOKEN).get_updates(False).build()
+
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("generate", generate))
