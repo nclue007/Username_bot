@@ -1,3 +1,4 @@
+from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
 import random
 import string
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
