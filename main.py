@@ -5,7 +5,9 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, CallbackContext
 
 # بيانات البوت
-TOKEN = "YOUR_BOT_TOKEN"
+import os
+TOKEN = os.environ.get("BOT_TOKEN")
+
 
 LANGUAGES = {
     'ar': 'العربية 🇸🇦',
