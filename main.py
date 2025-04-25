@@ -7,7 +7,8 @@ from telegram.ext import Application, CommandHandler, ContextTypes
 TOKEN = os.getenv("BOT_TOKEN")
 APP_URL = os.getenv("RENDER_EXTERNAL_URL")
 WEBHOOK_PATH = f"/{TOKEN}"
-WEBHOOK_URL = f"{APP_URL}/{TOKEN}"
+WEBHOOK_URL = f"{APP_URL}"
+
 
 
 PATTERNS = {
