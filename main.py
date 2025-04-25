@@ -179,18 +179,19 @@ def show_history(update: Update, context: CallbackContext):
     query.edit_message_text(msg)
 
 def main():
-    updater = Updater(TOKEN)
-    dp = updater.dispatcher
+    from telegram.ext import ApplicationBuilder
 
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CallbackQueryHandler(language_callback, pattern='^lang_'))
-    dp.add_handler(CallbackQueryHandler(style_callback, pattern='^style_'))
-    dp.add_handler(CallbackQueryHandler(check_availability, pattern='^check_available$'))
-    dp.add_handler(CallbackQueryHandler(generate_new, pattern='^generate_new$'))
-    dp.add_handler(CallbackQueryHandler(show_history, pattern='^history$'))
+application = ApplicationBuilder().token(TOKEN).build()
 
-    updater.start_polling()
-    updater.idle()
+application.add_handler(CommandHandler("start", start))
+application.add_handler(CallbackQueryHandler(language_button))
+application.add_handler(CallbackQueryHandler(style_button))
+application.add_handler(CallbackQueryHandler(check_username))
+application.add_handler(CallbackQueryHandler(generate_username))
+application.add_handler(CallbackQueryHandler(show_history))
+
+application.run_polling()
+
 
 if __name__ == '__main__':
     main()
