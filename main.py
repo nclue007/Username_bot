@@ -182,16 +182,17 @@ def show_history(update: Update, context: CallbackContext):
 def main():
     from telegram.ext import ApplicationBuilder
 
-application = ApplicationBuilder().token(TOKEN).build()
+    application = ApplicationBuilder().token(TOKEN).build()
 
-application.add_handler(CommandHandler("start", start))
-application.add_handler(CallbackQueryHandler(language_button))
-application.add_handler(CallbackQueryHandler(style_button))
-application.add_handler(CallbackQueryHandler(check_username))
-application.add_handler(CallbackQueryHandler(generate_username))
-application.add_handler(CallbackQueryHandler(show_history))
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CallbackQueryHandler(language_callback, pattern='^lang_'))
+    application.add_handler(CallbackQueryHandler(style_callback, pattern='^style_'))
+    application.add_handler(CallbackQueryHandler(check_availability, pattern='^check_available$'))
+    application.add_handler(CallbackQueryHandler(generate_new, pattern='^generate_new$'))
+    application.add_handler(CallbackQueryHandler(show_history, pattern='^history$'))
 
-application.run_polling()
+    application.run_polling()
+
 
 
 if __name__ == '__main__':
