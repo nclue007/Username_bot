@@ -1,8 +1,8 @@
-
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 import random, os
 
+# قراءة التوكن من متغير البيئة
 TOKEN = os.getenv("BOT_TOKEN")
 
 # نماذج لأسماء المستخدمين
@@ -12,10 +12,11 @@ PATTERNS = {
     "3": lambda: 'user_' + ''.join(random.choices('0123456789', k=4))
 }
 
+# أمر /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text("أرسل /generate <نمط> للحصول على اسم مستخدم.
-الأنماط: 1، 2، 3")
+    await update.message.reply_text("أرسل /generate <نمط> للحصول على اسم مستخدم.\nالأنماط: 1، 2، 3")
 
+# أمر /generate
 async def generate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if context.args:
         pattern = context.args[0]
@@ -27,6 +28,7 @@ async def generate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     else:
         await update.message.reply_text("يرجى تحديد النمط بعد الأمر.")
 
+# تشغيل البوت
 def main():
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
@@ -35,3 +37,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+  
