@@ -1,23 +1,30 @@
+
+  
+import os
+import random
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
-import random, os
 
+# توكن البوت
 TOKEN = os.getenv("BOT_TOKEN")
-WEBHOOK_PATH = "/webhook"
-WEBHOOK_URL = f"{os.getenv('RENDER_EXTERNAL_URL')}{WEBHOOK_PATH}"
 
-# أنماط أسماء المستخدمين
+# إعداد رابط الـ webhook
+APP_URL = os.getenv("RENDER_EXTERNAL_URL")  # يأتي من Render تلقائياً
+WEBHOOK_PATH = f"/{TOKEN}"
+WEBHOOK_URL = f"{APP_URL}{WEBHOOK_PATH}"
+
+# نماذج أسماء المستخدمين
 PATTERNS = {
     "1": lambda: ''.join(random.choices('abcdefghijklmnopqrstuvwxyz', k=5)),
     "2": lambda: ''.join(random.choices('abcdefghijklmnopqrstuvwxyz0123456789', k=6)),
     "3": lambda: 'user_' + ''.join(random.choices('0123456789', k=4))
 }
 
-# أمر /start
+# الأمر /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("أرسل /generate <نمط> للحصول على اسم مستخدم.\nالأنماط: 1، 2، 3")
 
-# أمر /generate
+# الأمر /generate
 async def generate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if context.args:
         pattern = context.args[0]
@@ -31,24 +38,22 @@ async def generate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 # الدالة الرئيسية
 async def main():
-    app = Application.builder().token(TOKEN).build()
+    from telegram.ext import ApplicationBuilder
 
-    # إضافة الأوامر
+    app = ApplicationBuilder().token(TOKEN).build()
+
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("generate", generate))
 
-    # إعداد Webhook
-    await app.bot.delete_webhook()
-    await app.bot.set_webhook(WEBHOOK_URL)
+    PORT = int(os.environ.get("PORT", 8443))
 
     await app.run_webhook(
         listen="0.0.0.0",
-        port=int(os.environ.get("PORT", 8443)),
-        path=WEBHOOK_PATH
+        port=PORT,
+        webhook_url=WEBHOOK_URL
     )
 
+# تشغيل الدالة الرئيسية
 if __name__ == "__main__":
     import asyncio
     asyncio.run(main())
-
-  
