@@ -1,0 +1,11 @@
+
+services:
+  - type: web
+    name: username-bot
+    env: python
+    plan: free
+    buildCommand: ""
+    startCommand: python main.py
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
