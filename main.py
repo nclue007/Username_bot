@@ -1,3 +1,6 @@
+import time
+  time.sleep(10)  # انتظر 10 ثواني قبل البدء
+  application.run_polling()
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
 import random
 import string
