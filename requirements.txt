@@ -1,3 +1,4 @@
 python-telegram-bot==20.7
 python-telegram-bot[webhooks]
-
+python-telegram-bot==20.3
+python-dotenv  # إذا كنت تستخدم ملف .env للبيانات السرية مثل BOT_TOKEN
