@@ -1,6 +1,3 @@
-import time
-  time.sleep(10)  # انتظر 10 ثواني قبل البدء
-  application.run_polling()
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
 import random
 import string
@@ -195,7 +192,16 @@ def main():
     application.add_handler(CallbackQueryHandler(check_availability, pattern='^check_available$'))
     application.add_handler(CallbackQueryHandler(generate_new, pattern='^generate_new$'))
     application.add_handler(CallbackQueryHandler(show_history, pattern='^history$'))
-
+services:
+    - type: worker  # تغيير من 'web' إلى 'worker'
+      name: username-bot
+      env: python
+      plan: free
+      buildCommand: pip install -r requirements.txt
+      startCommand: python main.py
+      envVars:
+        - key: BOT_TOKEN
+          sync: false
     application.run_polling()
 
 
